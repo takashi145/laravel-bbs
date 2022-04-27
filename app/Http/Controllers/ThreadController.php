@@ -7,8 +7,18 @@ use App\Models\Thread;
 
 class ThreadController extends Controller
 {
-    public function index(){
-        $threads = Thread::get();
+    /**
+     * スレッド一覧表示
+     */
+    public function index()
+    {
+        $threads = Thread::with('user')->get();
         return view('thread.index', compact('threads'));
+    }
+
+    public function show($id)
+    {
+        $thread = Thread::findOrFail($id);
+        return view('thread.show', compact('thread'));
     }
 }

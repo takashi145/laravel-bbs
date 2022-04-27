@@ -7,8 +7,8 @@
                         @foreach($threads as $thread)
                         <li>
                             {{ $thread->updated_at }}<br>
-                            <b>{{ $thread->title }}</b><br>
-                            {{ $thread->body}}
+                            {{ $thread->user->name }}<br>
+                            <b>{{ $thread->title }}</b>
                         </li>
                         <br>
                         @endforeach
