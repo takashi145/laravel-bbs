@@ -37,7 +37,8 @@ class ThreadController extends Controller
 
     public function show(Thread $thread)
     {
-        return view('thread.show', compact('thread'));
+        $comments = $thread->comments->load('user');
+        return view('thread.show', compact('thread', 'comments'));
     }
 
     public function edit(Thread $thread)

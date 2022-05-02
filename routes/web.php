@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ThreadController;
 
@@ -26,5 +27,6 @@ Route::get('/thread/{thread}/edit', [ThreadController::class, 'edit'])->name('th
 Route::put('/thread/{thread}/edit', [ThreadController::class, 'update'])->name('thread.update');
 Route::delete('/thread/{thread}/delete', [ThreadController::class, 'destroy'])->name('thread.delete');
 
+Route::post('comment/{thread}', [CommentController::class, 'store'])->name('comment.store');
 
 require __DIR__.'/auth.php';

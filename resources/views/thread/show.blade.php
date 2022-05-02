@@ -19,7 +19,35 @@
                     @endif
                 </div>
                 <div class="p-6 bg-white border-b border-gray-200">
-                  
+                  @if($errors->any())
+                    <ul>
+                      @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                      @endforeach
+                    </ul>
+                  @endif
+                  <form action="{{ route('comment.store', ['thread' => $thread->id])}}" method="post">
+                      @csrf
+                      <div>
+                          <label for="comment">コメント</label>
+                          <textarea name="comment" id="comment" cols="30" rows="10">{{ old('comment') }}</textarea>
+                      </div>
+                      <div>
+                          <button type="submit">投稿</button>
+                      </div>
+                  </form>
+                  <br><br>
+                  <hr>
+                  <div>
+                      <h2>コメント一覧</h2>
+                      @foreach($comments as $comment)
+                        <p>
+                            ユーザー：{{ $comment->user->name }}<br>
+                            {!! nl2br(e($comment->comment)) !!}
+                        </p>
+                        <hr>
+                      @endforeach
+                  </div>
                 </div>
             </div>
         </div>
