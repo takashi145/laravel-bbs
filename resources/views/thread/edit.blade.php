@@ -19,7 +19,7 @@
                     </div>
                     <div>
                       <label for="body">スレッド説明</label>
-                      <textarea name="body" id="body" cols="30" rows="10">{!! nl2br(e($thread->body)) !!}</textarea>
+                      <textarea name="body" id="body" cols="30" rows="10">{{ $thread->body }}</textarea>
                     </div>
                     <div>
                       <button type="submit" class="text-white bg-blue-400 hover:bg-blue-500 px-4 py-2 rounded">更新</button>

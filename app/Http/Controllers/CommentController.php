@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
 use App\Http\Requests\CommentPostRequest;
+use App\Models\Number;
+use App\Models\Thread;
 
 class CommentController extends Controller
 {
@@ -21,5 +23,13 @@ class CommentController extends Controller
         return redirect()
                 ->back()
                 ->with('message', 'コメントしました。');
+    }
+
+    public function destroy(Comment $comment)
+    {
+        $comment->delete();
+        return redirect()
+                ->back()
+                ->with('message', 'コメントを削除しました。');
     }
 }

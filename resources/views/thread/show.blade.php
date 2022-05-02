@@ -1,11 +1,14 @@
 <x-app-layout>
     <div class="py-12">
+        @if(session('message'))
+            <p>{{ session('message') }}</p>
+        @endif
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     スレ主：{{ $thread->user->name }}<br>
                     <b>{{ $thread->title}}</b><br><br>
-                    {{ $thread->body }}<br>
+                    {!! nl2br(e($thread->body)) !!}<br>
 
                     @if($thread->user->id === Auth::id())
                     <div>
@@ -43,7 +46,14 @@
                       @foreach($comments as $comment)
                         <p>
                             ユーザー：{{ $comment->user->name }}<br>
-                            {!! nl2br(e($comment->comment)) !!}
+                            {!! nl2br(e($comment->comment)) !!}<br>
+                            @if(Auth::id() == $comment->user->id)
+                            <form action="{{ route('comment.delete', ['comment' => $comment]) }}" method="post" onsubmit="return deleteConfirm()">
+                                @csrf
+                                @method('delete')
+                                <button type="submit">削除</button>
+                            </form>
+                            @endif
                         </p>
                         <hr>
                       @endforeach

@@ -43,11 +43,10 @@ class ThreadController extends Controller
 
     public function edit(Thread $thread)
     {
-        //作成者でないなら404ページ
+        //作成者じゃないなら404
         if(Auth::id() != $thread->user->id){
             abort(404);
         }
-
         return view('thread.edit', compact('thread'));
     }
 

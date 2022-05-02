@@ -24,6 +24,7 @@ class CommentPostRequest extends FormRequest
     public function rules()
     {
         return [
+            'comment_id' => [],
             'comment' => ['required', 'max:100'],
         ];
     }

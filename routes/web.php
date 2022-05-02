@@ -28,5 +28,6 @@ Route::put('/thread/{thread}/edit', [ThreadController::class, 'update'])->name('
 Route::delete('/thread/{thread}/delete', [ThreadController::class, 'destroy'])->name('thread.delete');
 
 Route::post('comment/{thread}', [CommentController::class, 'store'])->name('comment.store');
+Route::delete('comment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.delete');
 
 require __DIR__.'/auth.php';
