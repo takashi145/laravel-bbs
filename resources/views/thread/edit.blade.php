@@ -10,18 +10,19 @@
                       @endforeach
                     </ul>
                   @endif
-                  <form action="{{ route('thread.store') }}" method="post" class="text-center">
+                  <form action="{{ route('thread.update', ['thread' => $thread->id]) }}" method="post" class="text-center">
                     @csrf
+                    @method('put')
                     <div class="mb-3">
                       <label for="title">タイトル</label>
-                      <input type="text" id="title" name="title" value="{{ old('title') }}">
+                      <input type="text" id="title" name="title" value="{{ $thread->title }}">
                     </div>
                     <div>
                       <label for="body">スレッド説明</label>
-                      <textarea name="body" id="body" cols="30" rows="10">{{ old('body') }}</textarea>
+                      <textarea name="body" id="body" cols="30" rows="10">{!! nl2br(e($thread->body)) !!}</textarea>
                     </div>
                     <div>
-                      <button type="submit" class="text-white bg-blue-400 hover:bg-blue-500 px-4 py-2 rounded">作成</button>
+                      <button type="submit" class="text-white bg-blue-400 hover:bg-blue-500 px-4 py-2 rounded">更新</button>
                     </div>
                   </form>
                 </div>

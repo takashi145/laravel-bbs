@@ -15,12 +15,6 @@ class ThreadController extends Controller
         return view('thread.index', compact('threads'));
     }
 
-    public function show($id)
-    {
-        $thread = Thread::findOrFail($id);
-        return view('thread.show', compact('thread'));
-    }
-
     public function create()
     {
         return view('thread.create');
@@ -39,5 +33,29 @@ class ThreadController extends Controller
         return redirect()
                 ->route('thread.index')
                 ->with('message', 'スレッドを作成しました。');
+    }
+
+    public function edit(Thread $thread)
+    {
+        //作成者でないなら404ページ
+        if(Auth::id() != $thread->user->id){
+            abort(404);
+        }
+
+        return view('thread.edit', compact('thread'));
+    }
+
+    public function update(Thread $thread, ThreadPostRequest $request)
+    {
+        $data = $request->validated();
+        $thread->update($data);
+        return redirect()
+                ->route('thread.index')
+                ->with('message', 'スレッドを更新しました。');
+    }
+
+    public function show(Thread $thread)
+    {
+        return view('thread.show', compact('thread'));
     }
 }
