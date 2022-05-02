@@ -19,6 +19,8 @@ Route::get('/', function () {
 });
 
 Route::get('/thread', [ThreadController::class, 'index'])->name('thread.index');
+Route::get('/thread/create', [ThreadController::class, 'create'])->name('thread.create');
+Route::post('/thread/create', [ThreadController::class, 'store'])->name('thread.store');
 Route::get('/thread/{thread}', [ThreadController::class, 'show'])->name('thread.show');
 
 require __DIR__.'/auth.php';
