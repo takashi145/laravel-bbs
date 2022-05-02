@@ -9,8 +9,12 @@
 
                     @if($thread->user->id === Auth::id())
                     <div>
-                      <button>編集</button>
-                      <button>削除</button>
+                      <button onclick="location.href='{{ route('thread.edit', ['thread' => $thread->id]) }}'">編集</button>
+                      <form action="{{ route('thread.delete', ['thread' => $thread->id]) }}" method="post" onsubmit="return deleteConfirm()">
+                          @csrf
+                          @method('delete')
+                          <button type="submit">削除</button>
+                      </form>
                     </div>
                     @endif
                 </div>
@@ -20,4 +24,9 @@
             </div>
         </div>
     </div>
+    <script>
+        function deleteConfirm() {
+            return confirm("本当に削除してもよろしいですか。");
+        }
+    </script>
 </x-app-layout>

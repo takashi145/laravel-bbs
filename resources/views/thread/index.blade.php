@@ -10,7 +10,7 @@
                         @foreach($threads as $thread)
                         <li>
                             {{ $thread->updated_at }}<br>
-                            {{ $thread->user->name }}<br>
+                            <a href="{{ route('thread.show', ['thread' => $thread->id]) }}">{{ $thread->user->name }}</a><br>
                             <b>{{ $thread->title }}</b>
                         </li>
                         <br>

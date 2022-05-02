@@ -21,8 +21,10 @@ Route::get('/', function () {
 Route::get('/thread', [ThreadController::class, 'index'])->name('thread.index');
 Route::get('/thread/create', [ThreadController::class, 'create'])->name('thread.create');
 Route::post('/thread/create', [ThreadController::class, 'store'])->name('thread.store');
-Route::get('/thread/edit/{thread}', [ThreadController::class, 'edit']);
-Route::put('/thread/edit/{thread}', [ThreadController::class, 'update'])->name('thread.update');
 Route::get('/thread/{thread}', [ThreadController::class, 'show'])->name('thread.show');
+Route::get('/thread/{thread}/edit', [ThreadController::class, 'edit'])->name('thread.edit');
+Route::put('/thread/{thread}/edit', [ThreadController::class, 'update'])->name('thread.update');
+Route::delete('/thread/{thread}/delete', [ThreadController::class, 'destroy'])->name('thread.delete');
+
 
 require __DIR__.'/auth.php';

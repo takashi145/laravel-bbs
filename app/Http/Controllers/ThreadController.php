@@ -35,6 +35,11 @@ class ThreadController extends Controller
                 ->with('message', 'スレッドを作成しました。');
     }
 
+    public function show(Thread $thread)
+    {
+        return view('thread.show', compact('thread'));
+    }
+
     public function edit(Thread $thread)
     {
         //作成者でないなら404ページ
@@ -54,8 +59,11 @@ class ThreadController extends Controller
                 ->with('message', 'スレッドを更新しました。');
     }
 
-    public function show(Thread $thread)
+    public function destroy(Thread $thread)
     {
-        return view('thread.show', compact('thread'));
+        $thread->delete();
+        return redirect()
+                ->route('thread.index')
+                ->with('message', 'スレッドを削除しました。');
     }
 }
