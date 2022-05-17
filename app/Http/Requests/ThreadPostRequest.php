@@ -24,6 +24,7 @@ class ThreadPostRequest extends FormRequest
     public function rules()
     {
         return [
+            'secondary_category_id' => ['required'],
             'title' => ['required', 'max:30'],
             'body' => ['required', 'max:100'],
         ];

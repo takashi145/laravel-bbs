@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('threads', function (Blueprint $table) {
+        Schema::create('secondary_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")
-            ->constrained()
-            ->onDelete("cascade")
-            ->onUpdate("cascade");
-            $table->string("title", 30);
-            $table->text("body");
+            $table->foreignId('primary_category_id')
+            ->constrained();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('threads');
+        Schema::dropIfExists('secondary_categories');
     }
 };

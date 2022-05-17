@@ -14,6 +14,21 @@
                     @csrf
                     @method('put')
                     <div class="mb-3">
+                      <label for="category">カテゴリ―</label>
+                      <select name="secondary_category_id">
+                        <option value="">カテゴリ―を選択</option>
+                        @foreach($primary_categories as $primary_category)
+                          <optgroup label="{{ $primary_category->name }}">
+                          @foreach($primary_category->secondary_categories as $category)
+                            <option value="{{ $category->id }}"
+                              @if($thread->secondary_category->id == $category->id) selected @endif
+                            >{{ $category->name }}</option>
+                          @endforeach
+                          </optgroup>
+                        @endforeach
+                      </select>
+                    </div>
+                    <div class="mb-3">
                       <label for="title">タイトル</label>
                       <input type="text" id="title" name="title" value="{{ $thread->title }}">
                     </div>

@@ -19,6 +19,7 @@ class ThreadFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
+            'secondary_category_id' => rand(1, 7),
             'title' => $this->faker->realText(30),
             'body' => $this->faker->realText(100),
         ];
