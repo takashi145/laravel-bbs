@@ -7,6 +7,7 @@ use App\Models\Thread;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ThreadPostRequest;
 use App\Models\PrimaryCategory;
+use App\Models\SecondaryCategory;
 
 class ThreadController extends Controller
 {
@@ -16,18 +17,20 @@ class ThreadController extends Controller
             $threads = Thread::with('user', 'secondary_category')
                 ->latest('updated_at')
                 ->where('secondary_category_id', $_GET['category'])
-                ->get();
+                ->paginate(10);
+            
+            $category_name = SecondaryCategory::findOrFail($_GET['category'])->name;
         }else {
             $threads = Thread::with('user', 'secondary_category')
                 ->latest('updated_at')
-                ->get();
+                ->paginate(10);
+            $category_name = "全て";
         }
-        
 
         $primary_categories = PrimaryCategory::with('secondary_categories')
             ->get();
 
-        return view('thread.index', compact('threads', 'primary_categories'));
+        return view('thread.index', compact('threads', 'primary_categories', 'category_name'));
     }
 
     public function create()
@@ -43,7 +46,7 @@ class ThreadController extends Controller
 
         Thread::create([
             'user_id' => Auth::id(),
-            'secondary_category_id' => $data['category_id'],
+            'secondary_category_id' => $data['secondary_category_id'],
             'title' => $data['title'],
             'body' => $data['body'],
         ]);

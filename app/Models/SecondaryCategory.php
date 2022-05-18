@@ -9,6 +9,10 @@ class SecondaryCategory extends Model
 {
     use HasFactory;
 
+    public function primary_category() {
+        return $this->belongsTo(PrimaryCategory::class);
+    }
+
     public function threads() {
         return $this->hasMany(Thread::class);
     }
