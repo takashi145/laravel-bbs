@@ -1,8 +1,6 @@
 <x-app-layout>
     <div class="py-12">
-        @if(session('message'))
-            <p>{{ session('message') }}</p>
-        @endif
+        <x-flash-message />
         <div class="max-w-7xl mx-auto sm:px-6">
             <div class="overflow-hidden shadow-sm sm:rounded-lg mx-auto md:w-2/3">
                 <div class="p-6">
@@ -39,13 +37,7 @@
                 </div>
 
                 <div class="px-2 border-b border-gray-200">
-                  @if($errors->any())
-                    <ul>
-                      @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-                    </ul>
-                  @endif
+                  <x-error-message />
 
                   <form action="{{ route('comment.store', ['thread' => $thread->id])}}" method="post" class="mb-8 px-4" enctype="multipart/form-data">
                     @csrf

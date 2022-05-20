@@ -4,13 +4,7 @@
             <div class="sm:rounded-lg">
               <section class="text-gray-600 body-font">
                   <div class="container px-5 mx-auto">
-                  @if($errors->any())
-                    <ul>
-                      @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-                    </ul>
-                  @endif
+                  <x-error-message />
                   <form action="{{ route('thread.store') }}" method="post" class="text-center" enctype="multipart/form-data">
                     @csrf
                     <div class="lg:w-1/2 md:w-2/3 mx-auto">
