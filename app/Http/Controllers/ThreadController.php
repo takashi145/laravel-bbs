@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ThreadPostRequest;
 use App\Models\PrimaryCategory;
 use App\Models\SecondaryCategory;
+use Illuminate\Support\Facades\Storage;
 
 class ThreadController extends Controller
 {
@@ -44,8 +45,15 @@ class ThreadController extends Controller
     {
         $data = $request->validated();
 
+        $image_file = $request->file('image_file');
+        $image = null;
+        //画像が選択されていたら保存
+        if(!is_null($image_file) && $image_file->isValid()) {
+            $image = explode('public/images/', Storage::putFile('public/images', $image_file))[1];
+        }
         Thread::create([
             'user_id' => Auth::id(),
+            'image' => $image,
             'secondary_category_id' => $data['secondary_category_id'],
             'title' => $data['title'],
             'body' => $data['body'],

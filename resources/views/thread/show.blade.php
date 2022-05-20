@@ -16,13 +16,15 @@
                                 </h2>
                             </div>
                             <div class="mx-auto flex justify-center rounded-lg md:w-2/3 md:h-2/3 mb-3">
-                                <img class="h-full w-full" src="https://dummyimage.com/1200x500">
+                                @if(!is_null($thread->image) && Storage::exists('public/images/'.$thread->image))
+                                    <img class="h-full w-full" src="{{ asset('/storage/images/'.$thread->image) }}">
+                                @endif
                             </div>
                             <div class="md:w-2/3 mx-auto">
                                 <h1 class="title-font sm:text-4xl text-3xl mb-2 font-medium text-gray-900">{{ $thread->title }}</h1>
                                 <p class="mb-2 leading-relaxed">{{ $thread->body }}</p>
                             </div>
-                            @if(Auth::id() == $thread->user->id)
+                            <!-- @if(Auth::id() == $thread->user->id)
                             <div class="flex justify-center">
                                 <button onclick="location.href='{{ route('thread.edit', ['thread' => $thread->id]) }}'" class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">編集</button>
                                 <form action="{{ route('thread.delete', ['thread' => $thread->id]) }}" method="post" onsubmit="return deleteConfirm()">
@@ -31,7 +33,7 @@
                                     <button class="ml-4 inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg" type="submit">削除</button>
                                 </form>
                             </div>
-                            @endif
+                            @endif -->
                         </div>
                     </section>
                 </div>
