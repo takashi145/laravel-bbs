@@ -11,11 +11,25 @@
                       @endforeach
                     </ul>
                   @endif
-                  <form action="{{ route('thread.update', ['thread' => $thread]) }}" method="post" class="text-center">
+                  <form action="{{ route('thread.update', ['thread' => $thread]) }}" method="post" class="text-center" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="lg:w-1/2 md:w-2/3 mx-auto">
                       <div class="flex flex-col -m-2">
+                        <div x-data="{image_edit : true}" class="mb-6">
+                            @if(!is_null($thread->image) && Storage::exists('public/thread/'.$thread->image))
+                              <div class="mx-auto flex justify-center rounded-lg w-2/3 h-2/3 mb-3">
+                                <img class="h-full w-full" src="{{ asset('/storage/thread/'.$thread->image) }}">
+                              </div>
+                              <div @change="image_edit = !image_edit" class="mx-auto w-2/3 m-2 mb-4 text-left">
+                                <input type="checkbox" name="image_delete" class="m-1">画像を削除する
+                              </div>
+                            @endif
+                            <div x-show="image_edit">
+                              <label for="image_file" class="leading-7 text-sm text-gray-600">画像</label>
+                              <input type="file" id="image_file" name="image_file" class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                            </div>
+                        </div>
                         <div class="p-2 w-full text-left">
                           <div class="mb-2">
                             <label for="category" class="leading-7 text-sm text-gray-600">カテゴリー : </label>

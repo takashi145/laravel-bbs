@@ -84,7 +84,24 @@ class ThreadController extends Controller
     public function update(Thread $thread, ThreadPostRequest $request)
     {
         $data = $request->validated();
-        $thread->update($data);
+        
+        $image_file = $request->file('image_file');
+        $image = $thread->image;
+        if($request->image_delete){
+            Storage::delete('public/thread/'.$thread->image);
+        }else {
+            //画像が選択されていたら更新
+            if(!is_null($image_file) && $image_file->isValid()) {
+                Storage::delete('public/thread/'.$thread->image);
+                $image = explode('public/thread/', Storage::putFile('public/thread', $image_file))[1];
+            }
+        }
+        
+        $thread->image = $image;
+        $thread->title = $data['title'];
+        $thread->body = $data['body'];
+        $thread->save();
+
         return redirect()
                 ->route('thread.index')
                 ->with('message', 'スレッドを更新しました。');
