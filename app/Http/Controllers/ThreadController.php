@@ -49,7 +49,7 @@ class ThreadController extends Controller
         $image = null;
         //画像が選択されていたら保存
         if(!is_null($image_file) && $image_file->isValid()) {
-            $image = explode('public/images/', Storage::putFile('public/images', $image_file))[1];
+            $image = explode('public/thread/', Storage::putFile('public/thread', $image_file))[1];
         }
         Thread::create([
             'user_id' => Auth::id(),

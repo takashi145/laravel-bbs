@@ -3,7 +3,7 @@
         @if(session('message'))
             <p>{{ session('message') }}</p>
         @endif
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6">
             <div class="overflow-hidden shadow-sm sm:rounded-lg mx-auto md:w-2/3">
                 <div class="p-6">
                     <section class="text-gray-600 body-font">
@@ -16,15 +16,15 @@
                                 </h2>
                             </div>
                             <div class="mx-auto flex justify-center rounded-lg md:w-2/3 md:h-2/3 mb-3">
-                                @if(!is_null($thread->image) && Storage::exists('public/images/'.$thread->image))
-                                    <img class="h-full w-full" src="{{ asset('/storage/images/'.$thread->image) }}">
+                                @if(!is_null($thread->image) && Storage::exists('public/thread/'.$thread->image))
+                                    <img class="h-full w-full" src="{{ asset('/storage/thread/'.$thread->image) }}">
                                 @endif
                             </div>
                             <div class="md:w-2/3 mx-auto">
                                 <h1 class="title-font sm:text-4xl text-3xl mb-2 font-medium text-gray-900">{{ $thread->title }}</h1>
                                 <p class="mb-2 leading-relaxed">{{ $thread->body }}</p>
                             </div>
-                            <!-- @if(Auth::id() == $thread->user->id)
+                            @if(Auth::id() == $thread->user->id)
                             <div class="flex justify-center">
                                 <button onclick="location.href='{{ route('thread.edit', ['thread' => $thread->id]) }}'" class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">編集</button>
                                 <form action="{{ route('thread.delete', ['thread' => $thread->id]) }}" method="post" onsubmit="return deleteConfirm()">
@@ -33,10 +33,11 @@
                                     <button class="ml-4 inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg" type="submit">削除</button>
                                 </form>
                             </div>
-                            @endif -->
+                            @endif
                         </div>
                     </section>
                 </div>
+
                 <div class="px-2 border-b border-gray-200">
                   @if($errors->any())
                     <ul>
@@ -45,16 +46,22 @@
                       @endforeach
                     </ul>
                   @endif
-                  <form action="{{ route('comment.store', ['thread' => $thread->id])}}" method="post" class="mb-8 px-4">
+
+                  <form action="{{ route('comment.store', ['thread' => $thread->id])}}" method="post" class="mb-8 px-4" enctype="multipart/form-data">
                     @csrf
                     <div class="relative">
                         <label for="comment" class="leading-7 text-gray-600">コメント</label>
                         <textarea id="comment" name="comment" class="w-full bg-white-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
                     </div>
+                    <div class="relative mb-3">
+                        <label for="image_file" class="leading-7 text-gray-600">画像</label>
+                        <input type="file" id="image_file" name="image_file" class="w-full bg-white-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">
+                    </div>
                     <div class="text-right">
                         <button type="submit" class="text-white bg-blue-400 hover:bg-blue-500 px-8 py-2 rounded">投稿</button>
                     </div>
                   </form>
+
                   <div class="mb-10">
                     @foreach($comments as $index => $comment)
                         <div class="flex-grow bg-white rounded p-2 m-3 border">
@@ -64,9 +71,12 @@
                             {{ $comment->created_at }}に投稿
                             <div class="leading-relaxed text-base p-3 bg-gray-100">
                                 {!! nl2br(e($comment->comment)) !!}
-                                <!-- <div class="p-4 flex justify-center">
-                                    <img class="md:h-2/3 md:w-2/3" src="https://dummyimage.com/1200x500">
-                                </div> -->
+
+                                @if(!is_null($comment->image) && Storage::exists('public/comment/'.$comment->image))
+                                <div class="mx-auto flex justify-center rounded-lg md:w-2/3 md:h-2/3 my-3">
+                                    <img class="h-full w-full" src="{{ asset('/storage/comment/'.$comment->image) }}">
+                                </div>
+                                @endif
                             </div>
                             @if(Auth::id() == $comment->user->id)
                             <form action="{{ route('comment.delete', ['comment' => $comment]) }}" method="post" onsubmit="return deleteConfirm()" class="text-right p-2">

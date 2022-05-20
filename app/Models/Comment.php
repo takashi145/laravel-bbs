@@ -14,6 +14,7 @@ class Comment extends Model
         'thread_id',
         'comment_id',
         'comment',
+        'image',
     ];
 
     public function user()
