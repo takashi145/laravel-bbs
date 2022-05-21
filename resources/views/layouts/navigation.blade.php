@@ -15,6 +15,9 @@
                     <x-nav-link :href="route('thread.index')" :active="request()->routeIs('thread.index')">
                         ホーム
                     </x-nav-link>
+                    <x-nav-link :href="route('mypage.index')" :active="request()->routeIs('mypage.index')">
+                        マイページ
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -34,9 +37,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                           this.closest('form').submit();">
+                        <x-dropdown-link :href="route('mypage.index')">
                             {{ __('マイページ') }}
                         </x-dropdown-link>
                         <!-- Authentication -->
@@ -59,6 +60,9 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('thread.index')" :active="request()->routeIs('thread.index')">
                 ホーム
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('mypage.index')" :active="request()->routeIs('mypage.index')">
+                マイページ
             </x-responsive-nav-link>
         </div>
 

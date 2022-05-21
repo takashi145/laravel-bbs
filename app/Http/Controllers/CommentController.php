@@ -40,6 +40,6 @@ class CommentController extends Controller
         $comment->delete();
         return redirect()
                 ->back()
-                ->with('message', 'コメントを削除しました。');
+                ->with('alert', 'コメントを削除しました。');
     }
 }

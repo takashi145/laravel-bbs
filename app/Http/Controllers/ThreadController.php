@@ -98,12 +98,13 @@ class ThreadController extends Controller
         }
         
         $thread->image = $image;
+        $thread->secondary_category_id = $data['secondary_category_id'];
         $thread->title = $data['title'];
         $thread->body = $data['body'];
         $thread->save();
 
         return redirect()
-                ->route('thread.index')
+                ->back()
                 ->with('message', 'スレッドを更新しました。');
     }
 
@@ -111,7 +112,7 @@ class ThreadController extends Controller
     {
         $thread->delete();
         return redirect()
-                ->route('thread.index')
-                ->with('message', 'スレッドを削除しました。');
+                ->back()
+                ->with('alert', 'スレッドを削除しました。');
     }
 }
