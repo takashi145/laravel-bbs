@@ -1,26 +1,35 @@
 <x-app-layout>
     <div class="py-4">
         <x-flash-message />
-        <div class="mx-auto flex flex-col md:flex-row px-8 md:px-0">
+        <div class="mx-auto flex flex-col md:flex-row px-8 md:px-0 mb-8">
             <div class="text-center md:w-1/3 md:mt-12 m-3 md:fixed">
-              <div class="w-32 h-32 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
-                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
+              <div class="overflow-hidden w-32 h-32 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400">
+                @if(!is_null(Auth::user()->image) && Storage::exists('public/user/'.Auth::user()->image))
+                    <img class="h-full w-full" src="{{ asset('/storage/user/'.Auth::user()->image) }}">
+                @else
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                @endif
               </div>
               <div class="flex flex-col items-center text-center justify-center p-3">
-                <h2 class="font-medium title-font mt-4 text-gray-900 text-lg">{{ Auth::user()->name }}</h2>
-                <div class="w-12 h-1 bg-indigo-500 rounded mt-2 mb-4"></div>
-                <p class="text-base p-4 bg-white rounded">
-                  Raclette knausgaard hella meggs normcore williamsburg enamel pin sartorial venmo tbh hot chicken gentrify portland.
-                </p>
+                <h2 class="font-medium title-font text-gray-900 text-lg">{{ Auth::user()->name }}</h2>
+                <div class="w-12 h-1 bg-indigo-500 rounded mb-4"></div>
+                <div>
+                    <a href="{{ route('user.edit') }}" class="text-blue-400 hover:text-blue-500">ユーザ情報編集</a>
+                </div>
               </div>
             </div>
             <div class="md:w-1/3"></div>
-            <div class="w-full md:w-2/3 overflow-hidden shadow-sm sm:rounded-lg mx-auto md:mx-2">
+            <div class="w-full md:w-2/3 overflow-hidden sm:rounded-lg mx-auto md:mx-2">
                 <div class="p-6">
                     <ul class="mb-8">
+                        @if(count($threads) == 0)
+                            <div class="text-xl text-center md:mt-16">
+                                投稿がありません。
+                            </div>
+                        @endif
                         @foreach($threads as $thread)
                         <div class="flex items-center mx-auto sm:flex-row my-2 p-4 rounded border-b-2 bg-white">
                             <div class="w-40 h-40 sm:w-32 sm:h-32 mr-2 h-20 w-20 sm:mr-3 inline-flex items-center justify-center border-1 bg-indigo-100 text-indigo-500 flex-shrink-0">
@@ -94,6 +103,7 @@
                 </div>
             </div>
         </div>
+        <x-thread-create-btn />
     </div>
     <script>
         function deleteConfirm() {

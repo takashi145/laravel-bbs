@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Storage;
 
 class RegisteredUserController extends Controller
 {
@@ -30,6 +31,7 @@ class RegisteredUserController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Illuminate\Validation\ValidationException
+     * 
      */
     public function store(Request $request)
     {
@@ -39,7 +41,15 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $image_file = $request->file('image_file');
+        $image = null;
+        //画像が選択されていたら保存
+        if(!is_null($image_file) && $image_file->isValid()) {
+            $image = explode('public/user/', Storage::putFile('public/user', $image_file))[1];
+        }
+
         $user = User::create([
+            'image' => $image,
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
