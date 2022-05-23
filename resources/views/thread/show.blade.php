@@ -25,25 +25,10 @@
                         </div>
                     </section>
                 </div>
+                
+                <x-create-comment :thread="$thread"/>
 
                 <div class="px-2 border-b border-gray-200">
-                  <x-error-message />
-
-                  <form action="{{ route('comment.store', ['thread' => $thread->id])}}" method="post" class="mb-8 px-4" enctype="multipart/form-data">
-                    @csrf
-                    <div class="relative">
-                        <label for="comment" class="leading-7 text-gray-600">コメント</label>
-                        <textarea id="comment" name="comment" class="w-full bg-white-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
-                    </div>
-                    <div class="relative mb-3">
-                        <label for="image_file" class="leading-7 text-gray-600">画像</label>
-                        <input type="file" id="image_file" name="image_file" class="w-full bg-white-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">
-                    </div>
-                    <div class="text-right">
-                        <button type="submit" class="text-white bg-blue-400 hover:bg-blue-500 px-8 py-2 rounded">投稿</button>
-                    </div>
-                  </form>
-
                   <div class="mb-10">
                     @foreach($comments as $index => $comment)
                         <div class="flex-grow bg-white rounded p-2 m-3 border">

@@ -17,11 +17,11 @@ class PrimaryCategorySeeder extends Seeder
     {
         DB::table('primary_categories')->insert([
             [
-                'name' => 'アニメ・漫画'
+                'name' => 'プログラミング言語'
             ],
             [
-                'ゲーム'
-            ]
+                'name' => '環境構築'
+            ],
         ]);
     }
 }

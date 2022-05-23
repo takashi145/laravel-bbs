@@ -157,7 +157,9 @@ return [
         'secondary_category_id' => 'カテゴリ―',
         'title' => 'タイトル',
         'body' => '説明',
-        'comment' => 'コメント'
+        'comment' => 'コメント',
+        'password' => 'パスワード',
+        'email' => 'メールアドレス',
     ],
 
 ];

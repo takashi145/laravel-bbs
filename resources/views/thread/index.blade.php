@@ -1,121 +1,13 @@
 <x-app-layout>
     <div class="py-4">
-        <div class="md:hidden m-3 inline-block">
-            <x-dropdown align="left" width="48">
-                <x-slot name="trigger">
-                    <button class=" flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                        <div class="ml-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </div>
-                    </button>
-                </x-slot>
-
-                <x-slot name="content">
-                    <div>
-                        <h2 class="text-xl border-b-2 mx-3 mt-3 text-center">カテゴリ―</h2>
-                        <div class="p-4 bg-white text-center overflow-y-auto">
-                            <form action="" method="get">
-                                <div>
-                                    <div class="bg-gray-100 p-2 rounded mb-2">
-                                        @if(!isset($_GET['category']))
-                                        <div class="text-sm text-blue-600 font-bold">
-                                            全て
-                                        </div>
-                                        @else
-                                        <button type="submit" 
-                                            class="text-sm text-gray-600 hover:text-gray-800 hover:border-b hover:font-bold">
-                                            全て
-                                        </button>
-                                        @endif
-                                    </div>
-                                    
-                                    @foreach($primary_categories as $primary_category)
-                                        <b class="text-lg">{{ $primary_category->name }}</b>
-                                        <ul class="bg-gray-100 p-2 rounded overflow-x-auto mb-2">
-                                        @foreach($primary_category->secondary_categories as $category)
-                                            <li class="mx-2 my-1">
-                                                @if(isset($_GET['category']) && $_GET['category'] == $category->id)
-                                                    <div class="text-sm text-blue-600 font-bold">
-                                                        {{ $category->name }}
-                                                    </div>
-                                                @else
-                                                    <button type="submit" name="category" value="{{ $category->id }}"
-                                                        class="text-sm text-gray-600  hover:text-gray-800 hover:border-b hover:font-bold">
-                                                        {{ $category->name }}
-                                                    </button>
-                                                @endif
-                                            </li>
-                                        @endforeach
-                                        </ul>
-                                    @endforeach
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </x-slot>
-            </x-dropdown>
-        </div>
-        
         <x-flash-message />
         
         <div class="mx-auto md:flex md:flex-row px-8 md:px-0">
-            <div class="hidden md:block mx-6 my-14 w-1/4 md:w-1/5 bg-white overflow-hidden shadow-sm sm:rounded-lg overflow-y-auto">
-                <h2 class="text-xl border-b-2 mx-3 mt-3 text-center">カテゴリ―</h2>
-                <div class="p-4 bg-white text-center overflow-y-auto">
-                    <form action="" method="get">
-                        <div>
-                            <div class="bg-gray-100 p-2 rounded mb-2">
-                                @if(!isset($_GET['category']))
-                                <div class="text-sm text-blue-600 font-bold">
-                                    全て
-                                </div>
-                                @else
-                                <button type="submit" 
-                                    class="text-sm text-gray-600 hover:text-gray-800 hover:border-b hover:font-bold">
-                                    全て
-                                </button>
-                                @endif
-                            </div>
-                            
-                            @foreach($primary_categories as $primary_category)
-                                <b class="text-lg">{{ $primary_category->name }}</b>
-                                <ul class="bg-gray-100 p-2 rounded overflow-x-auto mb-2">
-                                @foreach($primary_category->secondary_categories as $category)
-                                    <li class="mx-2 my-1">
-                                        @if(isset($_GET['category']) && $_GET['category'] == $category->id)
-                                            <div class="text-sm text-blue-600 font-bold">
-                                                {{ $category->name }}
-                                            </div>
-                                        @else
-                                            <button type="submit" name="category" value="{{ $category->id }}"
-                                                class="text-sm text-gray-600  hover:text-gray-800 hover:border-b hover:font-bold">
-                                                {{ $category->name }}
-                                            </button>
-                                        @endif
-                                    </li>
-                                @endforeach
-                                </ul>
-                            @endforeach
-                        </div>
-                    </form>
-                </div>
-            </div>
+            
+            <x-category-component :primary_categories="$primary_categories" />
+
             <div class="w-full md:w-2/3 overflow-hidden shadow-sm sm:rounded-lg mx-auto md:mx-2">
-                <div class="p-6">
-                    <div class="text-center">
-                        <p class="text-xl">
-                            記事一覧：
-                            <span class="font-bold">
-                            @if(!isset($_GET['category']))
-                                全て
-                            @else
-                                {{ $category_name }}
-                            @endif
-                            </span>
-                        </p>
-                    </div>
+                <div class="">
                     <ul class="mb-8">
                         @foreach($threads as $thread)
                         <div class="flex items-center mx-auto sm:flex-row my-2 p-4 rounded border-b-2 bg-white">
@@ -128,7 +20,7 @@
                                     </svg>
                                 @endif
                             </div>
-                            <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
+                            <div class="flex-grow sm:text-left mt-6 sm:mt-0">
                                 <details class="text-right mb-3 cursor-pointer">
                                     <div class="text-left bg-gray-100 p-2 m-2 ">
                                         <p class="mb-2 text-sm">
@@ -139,12 +31,14 @@
                                                 {{ $thread->secondary_category->name }}
                                             </span>
                                         </p>
+
                                         @php
                                             // 作成日からの現在時刻までの経過時間を計算
                                             $date = new \Carbon\Carbon($thread->created_at);
                                             $now = \Carbon\Carbon::now();
                                             $diffDate = $date->diffForHumans($now);
                                         @endphp
+
                                         <p class="my-2 text-sm">作成日： {{ $diffDate }}</p>
                                         <p class="text-gray-900 title-font mb-2">
                                             作成者：

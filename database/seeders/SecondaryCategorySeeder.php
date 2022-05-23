@@ -18,31 +18,39 @@ class SecondaryCategorySeeder extends Seeder
         DB::table('secondary_categories')->insert([
             [
                 'primary_category_id' => 1,
-                'name' => 'ワンピース',
+                'name' => 'C言語',
             ],
             [
                 'primary_category_id' => 1,
-                'name' => 'ナルト',
+                'name' => 'Java',
             ],
             [
                 'primary_category_id' => 1,
-                'name' => 'スパイファミリー',
+                'name' => 'Python',
+            ],
+            [
+                'primary_category_id' => 1,
+                'name' => 'PHP',
+            ],
+            [
+                'primary_category_id' => 1,
+                'name' => 'Ruby',
+            ],
+            [
+                'primary_category_id' => 1,
+                'name' => 'JavaScript',
             ],
             [
                 'primary_category_id' => 2,
-                'name' => 'ポケモン',
+                'name' => 'XAMPP',
             ],
             [
                 'primary_category_id' => 2,
-                'name' => 'モンハン',
+                'name' => 'Docker',
             ],
             [
                 'primary_category_id' => 2,
-                'name' => 'モンスト',
-            ],
-            [
-                'primary_category_id' => 2,
-                'name' => 'パズドラ',
+                'name' => 'Eclipse',
             ]
         ]);
     }

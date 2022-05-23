@@ -18,18 +18,31 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
-Route::resource('thread', ThreadController::class);
+Route::get('thread', [ThreadController::class, 'index'])->name('thread.index');
+Route::middleware('auth')->group(function() {
+    Route::resource('thread', ThreadController::class)->except(['index', 'show']);
+});
+Route::get('thread/{thread}', [ThreadController::class, 'show'])->name('thread.show');
 
-Route::post('comment/{thread}', [CommentController::class, 'store'])->name('comment.store');
-Route::delete('comment/{comment}/delete', [CommentController::class, 'destroy'])->name('comment.delete');
 
-Route::get('user', [UserController::class, 'index'])->name('user.index');
-Route::get('user/edit', [UserController::class, 'edit'])->name('user.edit');
-Route::post('user/edit', [UserController::class, 'update'])->name('user.update');
-ROute::post('user/passowrd_update', [UserController::class, 'password_update'])->name('user.password_update');
-Route::post('user/delete', [UserController::class, 'destroy'])->name('user.destroy');
+Route::controller(CommentController::class)->middleware('auth')
+    ->prefix('comment/')->name('comment.')->group(function() {
+        Route::post('{thread}', 'store')->name('store');
+    Route::delete('{comment}/delete', 'destroy')->name('delete');
+});
+
+
+Route::controller(UserController::class)->middleware('auth')
+    ->prefix('user/')->name('user.')->group(function() {
+        Route::get('', 'index')->name('index');
+        Route::get('edit', 'edit')->name('edit');
+        Route::post('edit', 'update')->name('update');
+        ROute::post('passowrd_update', 'password_update')->name('password_update');
+        Route::post('delete', 'destroy')->name('destroy');
+});
+
 
 require __DIR__.'/auth.php';

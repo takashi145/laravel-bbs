@@ -13,25 +13,22 @@ use Illuminate\Support\Facades\Storage;
 class ThreadController extends Controller
 {
     public function index()
-    {   
+    {
         if(!empty($_GET['category'])){
             $threads = Thread::with('user', 'secondary_category')
                 ->latest('updated_at')
                 ->where('secondary_category_id', $_GET['category'])
                 ->paginate(10);
-            
-            $category_name = SecondaryCategory::findOrFail($_GET['category'])->name;
         }else {
-            $threads = Thread::with('user', 'secondary_category')
+            $threads = Thread::with('user', 'secondary_category.primary_category')
                 ->latest('updated_at')
                 ->paginate(10);
-            $category_name = "全て";
         }
 
         $primary_categories = PrimaryCategory::with('secondary_categories')
             ->get();
 
-        return view('thread.index', compact('threads', 'primary_categories', 'category_name'));
+        return view('thread.index', compact('threads', 'primary_categories'));
     }
 
     public function create()
@@ -51,6 +48,7 @@ class ThreadController extends Controller
         if(!is_null($image_file) && $image_file->isValid()) {
             $image = explode('public/thread/', Storage::putFile('public/thread', $image_file))[1];
         }
+
         Thread::create([
             'user_id' => Auth::id(),
             'image' => $image,
