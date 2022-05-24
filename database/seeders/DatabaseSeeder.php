@@ -16,7 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call([
+            PrimaryCategorySeeder::class,
+            SecondaryCategorySeeder::class,
+        ]);
         User::factory(10)->create()->each(function ($user) {
             Thread::factory(random_int(2, 5))->create(['user_id' => $user]);
         });

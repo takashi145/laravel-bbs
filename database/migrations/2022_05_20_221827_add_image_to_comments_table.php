@@ -13,15 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('threads', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId("user_id")
-            ->constrained()
-            ->onDelete("cascade")
-            ->onUpdate("cascade");
-            $table->string("title", 30);
-            $table->text("body");
-            $table->timestamps();
+        Schema::table('comments', function (Blueprint $table) {
+            $table->text('image')->nullable();
         });
     }
 
@@ -32,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('threads');
+        Schema::table('comments', function (Blueprint $table) {
+            //
+        });
     }
 };

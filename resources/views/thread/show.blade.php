@@ -1,62 +1,59 @@
 <x-app-layout>
     <div class="py-12">
-        @if(session('message'))
-            <p>{{ session('message') }}</p>
-        @endif
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    スレ主：{{ $thread->user->name }}<br>
-                    <b>{{ $thread->title}}</b><br><br>
-                    {!! nl2br(e($thread->body)) !!}<br>
-
-                    @if($thread->user->id === Auth::id())
-                    <div>
-                      <button onclick="location.href='{{ route('thread.edit', ['thread' => $thread->id]) }}'">編集</button>
-                      <form action="{{ route('thread.delete', ['thread' => $thread->id]) }}" method="post" onsubmit="return deleteConfirm()">
-                          @csrf
-                          @method('delete')
-                          <button type="submit">削除</button>
-                      </form>
-                    </div>
-                    @endif
+        <x-flash-message />
+        <div class="max-w-7xl mx-auto sm:px-6">
+            <div class="overflow-hidden shadow-sm sm:rounded-lg mx-auto md:w-2/3">
+                <div class="p-6">
+                    <section class="text-gray-600 body-font">
+                        <div class="container mx-auto bg-white p-4 rounded">
+                            <div class="md:w-2/3 mx-auto">
+                                <p>作成日：{{ $thread->created_at }}</p>
+                                <p>投稿者：{{ $thread->user->name }}</p>
+                                <h2 class="text-lg font-bold mt-3">
+                                    カテゴリー：{{ $thread->secondary_category->name }}
+                                </h2>
+                            </div>
+                            <div class="mx-auto flex justify-center rounded-lg md:w-2/3 md:h-2/3 mb-3">
+                                @if(!is_null($thread->image) && Storage::exists('public/thread/'.$thread->image))
+                                    <img class="h-full w-full" src="{{ asset('/storage/thread/'.$thread->image) }}">
+                                @endif
+                            </div>
+                            <div class="md:w-2/3 mx-auto">
+                                <h1 class="title-font sm:text-4xl text-3xl mb-2 font-medium text-gray-900">{{ $thread->title }}</h1>
+                                <p class="mb-2 leading-relaxed">{{ $thread->body }}</p>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-                <div class="p-6 bg-white border-b border-gray-200">
-                  @if($errors->any())
-                    <ul>
-                      @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                      @endforeach
-                    </ul>
-                  @endif
-                  <form action="{{ route('comment.store', ['thread' => $thread->id])}}" method="post">
-                      @csrf
-                      <div>
-                          <label for="comment">コメント</label>
-                          <textarea name="comment" id="comment" cols="30" rows="10">{{ old('comment') }}</textarea>
-                      </div>
-                      <div>
-                          <button type="submit">投稿</button>
-                      </div>
-                  </form>
-                  <br><br>
-                  <hr>
-                  <div>
-                      <h2>コメント一覧</h2>
-                      @foreach($comments as $comment)
-                        <p>
-                            ユーザー：{{ $comment->user->name }}<br>
-                            {!! nl2br(e($comment->comment)) !!}<br>
+                
+                <x-create-comment :thread="$thread"/>
+
+                <div class="px-2 border-b border-gray-200">
+                  <div class="mb-10">
+                    @foreach($comments as $index => $comment)
+                        <div class="flex-grow bg-white rounded p-2 m-3 border">
+                            <span class="mx-3 text-gray-900 text-lg title-font font-medium mb-3">
+                                {{$index+1}}. {{ $comment->user->name }}
+                            </span>
+                            {{ $comment->created_at }}に投稿
+                            <div class="leading-relaxed text-base p-3 bg-gray-100">
+                                {!! nl2br(e($comment->comment)) !!}
+
+                                @if(!is_null($comment->image) && Storage::exists('public/comment/'.$comment->image))
+                                <div class="mx-auto flex justify-center rounded-lg md:w-2/3 md:h-2/3 my-3">
+                                    <img class="h-full w-full" src="{{ asset('/storage/comment/'.$comment->image) }}">
+                                </div>
+                                @endif
+                            </div>
                             @if(Auth::id() == $comment->user->id)
-                            <form action="{{ route('comment.delete', ['comment' => $comment]) }}" method="post" onsubmit="return deleteConfirm()">
+                            <form action="{{ route('comment.delete', ['comment' => $comment]) }}" method="post" onsubmit="return deleteConfirm()" class="text-right p-2">
                                 @csrf
                                 @method('delete')
-                                <button type="submit">削除</button>
+                                <button type="submit" class="text-red-400">削除</button>
                             </form>
                             @endif
-                        </p>
-                        <hr>
-                      @endforeach
+                        </div>
+                    @endforeach
                   </div>
                 </div>
             </div>
