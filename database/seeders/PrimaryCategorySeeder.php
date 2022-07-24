@@ -20,7 +20,7 @@ class PrimaryCategorySeeder extends Seeder
                 'name' => 'プログラミング言語'
             ],
             [
-                'name' => '環境構築'
+                'name' => 'フレームワーク'
             ],
         ]);
     }

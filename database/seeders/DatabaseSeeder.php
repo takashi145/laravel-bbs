@@ -20,8 +20,9 @@ class DatabaseSeeder extends Seeder
             PrimaryCategorySeeder::class,
             SecondaryCategorySeeder::class,
         ]);
-        User::factory(10)->create()->each(function ($user) {
-            Thread::factory(random_int(2, 5))->create(['user_id' => $user]);
-        });
+        
+        // User::factory(10)->create()->each(function ($user) {
+        //     Thread::factory(random_int(2, 5))->create(['user_id' => $user]);
+        // });
     }
 }
