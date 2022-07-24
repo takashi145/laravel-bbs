@@ -69,6 +69,8 @@
                         {{ $threads->links() }}
                     @endif
                 </div>
+
+                <x-thread-create-btn />
             </div>
         </div>
     </div>

@@ -26,6 +26,10 @@ class SecondaryCategorySeeder extends Seeder
             ],
             [
                 'primary_category_id' => 1,
+                'name' => 'Kotlin',
+            ],
+            [
+                'primary_category_id' => 1,
                 'name' => 'Python',
             ],
             [
@@ -41,17 +45,73 @@ class SecondaryCategorySeeder extends Seeder
                 'name' => 'JavaScript',
             ],
             [
-                'primary_category_id' => 2,
-                'name' => 'XAMPP',
+                'primary_category_id' => 1,
+                'name' => 'C/C++',
+            ],
+            [
+                'primary_category_id' => 1,
+                'name' => 'C#',
+            ],
+            [
+                'primary_category_id' => 1,
+                'name' => 'Go',
+            ],
+            [
+                'primary_category_id' => 1,
+                'name' => 'Rust',
             ],
             [
                 'primary_category_id' => 2,
-                'name' => 'Docker',
+                'name' => 'Laravel',
             ],
             [
                 'primary_category_id' => 2,
-                'name' => 'Eclipse',
-            ]
+                'name' => 'CakePHP',
+            ],
+            [
+                'primary_category_id' => 2,
+                'name' => 'Ruby on Rails',
+            ],
+            [
+                'primary_category_id' => 2,
+                'name' => 'Vue.js',
+            ],
+            [
+                'primary_category_id' => 2,
+                'name' => 'React',
+            ],
+            [
+                'primary_category_id' => 2,
+                'name' => 'AngularJS',
+            ],
+            [
+                'primary_category_id' => 2,
+                'name' => 'Express',
+            ],
+            [
+                'primary_category_id' => 2,
+                'name' => 'Spring Framework',
+            ],
+            [
+                'primary_category_id' => 2,
+                'name' => 'Flask',
+            ],
+            [
+                'primary_category_id' => 2,
+                'name' => 'Django',
+            ],
+            [
+                'primary_category_id' => 2,
+                'name' => 'Laravel',
+            ],
+            [
+                'primary_category_id' => 2,
+                'name' => 'Bootstrap',
+            ],
+            [
+                'primary_category_id' => 2,
+                'name' => 'Tailwind CSS',
+            ],
         ]);
     }
 }

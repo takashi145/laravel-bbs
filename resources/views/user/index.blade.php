@@ -2,7 +2,7 @@
     <div class="py-4">
         <x-flash-message />
         <div class="mx-auto flex flex-col md:flex-row px-8 md:px-0 mb-8">
-            <div class="text-center md:w-1/3 md:mt-12 m-3 md:fixed">
+            <div class="bg-white py-12 rounded-xl text-center md:w-1/4 md:mt-12 m-3 md:fixed">
               <div class="overflow-hidden w-32 h-32 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400">
                 @if(!is_null(Auth::user()->image) && Storage::exists('public/user/'.Auth::user()->image))
                     <img class="h-full w-full" src="{{ asset('/storage/user/'.Auth::user()->image) }}">
