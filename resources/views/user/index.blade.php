@@ -1,9 +1,9 @@
 <x-app-layout>
     <div class="py-4">
         <x-flash-message />
-        <div class="mx-auto flex flex-col md:flex-row px-8 md:px-0 mb-8">
-            <div class="bg-white py-12 rounded-xl text-center md:w-1/4 md:mt-12 m-3 md:fixed">
-              <div class="overflow-hidden w-32 h-32 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400">
+        <div class="mx-auto flex flex-col lg:flex-wrap px-8 md:px-0 mb-8">
+            <div class="bg-white py-12 rounded-xl text-center md:w-1/4 md:mt-12 m-3 md:ml-8 lg:ml-16 md:fixed shadow-lg lg:w-1/4">
+              <div class="overflow-hidden w-32 h-32 ring-2 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400">
                 @if(!is_null(Auth::user()->image) && Storage::exists('public/user/'.Auth::user()->image))
                     <img class="h-full w-full" src="{{ asset('/storage/user/'.Auth::user()->image) }}">
                 @else
@@ -22,7 +22,7 @@
               </div>
             </div>
             <div class="md:w-1/3"></div>
-            <div class="w-full md:w-2/3 overflow-hidden sm:rounded-lg mx-auto md:mx-2">
+            <div class="w-full md:w-2/3 overflow-hidden sm:rounded-lg mx-auto md:mr-3">
                 <div class="p-6">
                     <ul class="mb-8">
                         @if(count($threads) == 0)
@@ -31,7 +31,7 @@
                             </div>
                         @endif
                         @foreach($threads as $thread)
-                        <div class="flex items-center mx-auto sm:flex-row my-2 p-4 rounded border-b-2 bg-white">
+                        <div class="flex items-center mx-auto sm:flex-row my-2 p-4 rounded border-b-2 bg-white shadow-lg">
                             <div class="w-40 h-40 sm:w-32 sm:h-32 mr-2 h-20 w-20 sm:mr-3 inline-flex items-center justify-center border-1 bg-indigo-100 text-indigo-500 flex-shrink-0">
                                 @if(!is_null($thread->image) && Storage::exists('public/thread/'.$thread->image))
                                     <img class="h-full w-full" src="{{ asset('/storage/thread/'.$thread->image) }}">

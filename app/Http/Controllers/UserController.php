@@ -15,14 +15,18 @@ class UserController extends Controller
 
     public function index()
     {
-        $threads = Thread::with(['secondary_category.primary_category', 'user'])->where('user_id', Auth::id())->paginate(10);
+        $threads = Thread::with(['secondary_category.primary_category', 'user'])
+            ->where('user_id', Auth::id())
+            ->paginate(10);
+        
         return view('user.index', compact('threads'));
     }
 
-    public function edit()
+    public function edit(Request $request)
     {
-        $type = $_GET['type'] ?? '';
+        $type = $request['type'] ?? '';
         $path = null;
+        
         if($type == 'password') {
             $path = 'user.password_edit';
         }else if($type == 'destroy') {

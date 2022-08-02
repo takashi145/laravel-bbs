@@ -6,7 +6,7 @@
             
             <x-category-component :primary_categories="$primary_categories" />
 
-            <div class="w-full md:w-2/3 overflow-hidden shadow-sm sm:rounded-lg mx-auto md:mx-2">
+            <div class="w-full md:w-2/3 overflow-hidden shadow-sm sm:rounded-lg mx-auto md:mx-2 my-3">
                 <div class="">
                     <ul class="mb-8">
                         @foreach($threads as $thread)

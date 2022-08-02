@@ -12,29 +12,31 @@ use Illuminate\Support\Facades\Storage;
 
 class ThreadController extends Controller
 {
-    public function index()
+    public function __construct()
     {
-        if(!empty($_GET['category'])){
+        $this->middleware('post_user')->only('edit', 'update', 'destroy');
+    }
+
+    public function index(Request $request)
+    {
+        if(!empty($request['category'])){
             $threads = Thread::with('user', 'secondary_category')
                 ->latest('updated_at')
-                ->where('secondary_category_id', $_GET['category'])
+                ->where('secondary_category_id', $request['category'])
                 ->paginate(10);
         }else {
             $threads = Thread::with('user', 'secondary_category.primary_category')
                 ->latest('updated_at')
                 ->paginate(10);
         }
-
-        $primary_categories = PrimaryCategory::with('secondary_categories')
-            ->get();
-
+        $primary_categories = PrimaryCategory::with('secondary_categories')->get();
+            
         return view('thread.index', compact('threads', 'primary_categories'));
     }
 
     public function create()
     {
-        $primary_categories = PrimaryCategory::with('secondary_categories')
-            ->get();
+        $primary_categories = PrimaryCategory::with('secondary_categories')->get();
         return view('thread.create', compact('primary_categories'));
     }
 
@@ -70,12 +72,8 @@ class ThreadController extends Controller
 
     public function edit(Thread $thread)
     {
-        //作成者じゃないなら404
-        if(Auth::id() != $thread->user->id){
-            abort(404);
-        }
-        $primary_categories = PrimaryCategory::with('secondary_categories')
-            ->get();
+        $primary_categories = PrimaryCategory::with('secondary_categories')->get();
+        
         return view('thread.edit', compact('thread', 'primary_categories'));
     }
 
@@ -109,6 +107,7 @@ class ThreadController extends Controller
     public function destroy(Thread $thread)
     {
         $thread->delete();
+
         return redirect()
                 ->back()
                 ->with('alert', 'スレッドを削除しました。');
