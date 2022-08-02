@@ -21,10 +21,11 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('thread', [ThreadController::class, 'index'])->name('thread.index');
+Route::get('/thread', [ThreadController::class, 'index'])->name('thread.index');
 Route::middleware('auth')->group(function() {
     Route::resource('thread', ThreadController::class)->except(['index', 'show']);
 });
+
 Route::get('thread/{thread}', [ThreadController::class, 'show'])->name('thread.show');
 
 

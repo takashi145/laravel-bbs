@@ -2,10 +2,10 @@
     <div class="py-12">
         <x-flash-message />
         <div class="max-w-7xl mx-auto sm:px-6">
-            <div class="overflow-hidden shadow-sm sm:rounded-lg mx-auto md:w-2/3">
-                <div class="p-6">
+            <div class="overflow-hidden shadow-sm sm:rounded-lg mx-auto lg:w-2/3">
+                <div class="w-full p-6 ">
                     <section class="text-gray-600 body-font">
-                        <div class="container mx-auto bg-white p-4 rounded">
+                        <div class="container mx-auto bg-white p-4 rounded shadow-lg">
                             <div class="md:w-2/3 mx-auto">
                                 <p>作成日：{{ $thread->created_at }}</p>
                                 <p>投稿者：{{ $thread->user->name }}</p>
@@ -31,7 +31,7 @@
                 <div class="px-2 border-b border-gray-200">
                   <div class="mb-10">
                     @foreach($comments as $index => $comment)
-                        <div class="flex-grow bg-white rounded p-2 m-3 border">
+                        <div class="flex-grow bg-white rounded p-2 m-3 border shadow-lg">
                             <span class="mx-3 text-gray-900 text-lg title-font font-medium mb-3">
                                 {{$index+1}}. {{ $comment->user->name }}
                             </span>
